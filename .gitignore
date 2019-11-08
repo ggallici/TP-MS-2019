@@ -1,3 +1,10 @@
+# Eclipse, Maven & Mac files
+/target/
+/.settings/
+.classpath
+.project
+.DS_Store
+
 # Compiled class file
 *.class
 
