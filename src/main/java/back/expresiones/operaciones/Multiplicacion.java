@@ -22,6 +22,12 @@ public class Multiplicacion extends Operacion {
 	}
 	
 	@Override
+	public String toString() {
+		
+		return operandoIzquierdo.toString() + " " + getOperador() + " " + operandoDerecho.toString();
+	}
+	
+	@Override
 	public char getOperador() {
 		
 		return '*';

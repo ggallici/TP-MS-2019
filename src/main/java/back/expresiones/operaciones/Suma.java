@@ -16,6 +16,12 @@ public class Suma extends Operacion {
 	}
 	
 	@Override
+	public String toString() {
+		
+		return operandoIzquierdo.toString() + " " + getOperador() + " " + operandoDerecho.toString();
+	}
+	
+	@Override
 	public Expresion reducir() {
 		// TODO Auto-generated method stub
 		return null;

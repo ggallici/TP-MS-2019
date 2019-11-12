@@ -43,6 +43,6 @@ public class Punto {
 					
 					return new Multiplicacion(operandoIzquierdo, operandoDerecho);
 				})
-				.orElse(new Constante(0));
+				.orElseThrow(() -> new RuntimeException("No se puede calcular Lagrange sin puntos"));
 	}
 }

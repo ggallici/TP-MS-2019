@@ -31,7 +31,7 @@ public class Lagrange {
 					  return (Expresion) new Multiplicacion(new Division(new Constante(yi), new Constante(liEvaluadoEnXi)), li);
 				  })
 				  .reduce((unaExpresion, otraExpresion) -> new Suma(unaExpresion, otraExpresion))
-				  .orElse(new Constante(0));
+				  .orElseThrow(() -> new RuntimeException("No se puede calcular Lagrange sin puntos"));
 	}
 
 	public List<Expresion> calcularLisCon(List<Punto> puntos) {
