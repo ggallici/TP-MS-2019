@@ -6,8 +6,10 @@ import java.util.stream.IntStream;
 
 import back.expresiones.Constante;
 import back.expresiones.Expresion;
+import back.expresiones.Incognita;
 import back.expresiones.operaciones.Division;
 import back.expresiones.operaciones.Multiplicacion;
+import back.expresiones.operaciones.Resta;
 import back.expresiones.operaciones.Suma;
 
 public class Lagrange {
@@ -38,7 +40,24 @@ public class Lagrange {
 		
 		return puntos
 				.stream()
-				.map(punto -> punto.calcularLiCon(puntos))
+				.map(punto -> calcularLiDe(punto, puntos))
 				.collect(Collectors.toList());
+	}
+	
+	private Expresion calcularLiDe(Punto unPunto, List<Punto> puntos) {
+		
+		return puntos
+				.stream()
+				.filter(punto -> punto != unPunto)
+				.map(punto -> (Expresion) new Constante(punto.getX()))
+				.reduce((unaConstante, otraConstante) -> {
+					
+					Expresion operandoIzquierdo = new Resta(new Incognita(), unaConstante);
+					
+					Expresion operandoDerecho = new Resta(new Incognita(), otraConstante);
+					
+					return new Multiplicacion(operandoIzquierdo, operandoDerecho);
+				})
+				.orElseThrow(() -> new RuntimeException("No se puede calcular Lagrange sin puntos"));
 	}
 }
