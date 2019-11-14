@@ -1,6 +1,7 @@
 package back;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import back.expresiones.Constante;
@@ -99,5 +100,24 @@ public class MatrizNewtonGregory {
 				})
 				.reduce((unaFila, otraFila) -> unaFila + "\n\n" + otraFila)
 				.get();
+	}
+	
+	public int getOrdenDelPolinomioSegun(EstrategiaNewtonGregory estrategia) {
+		
+		//TODO: Refactorizar delegando esta responsabilidad a las expresiones
+		
+		List<Double> coeficientes = IntStream
+				.range(1, columnas)
+				.mapToDouble(columna -> getValor(columna, estrategia.getFilaCoeficiente(filas, columna)))
+				.boxed()
+				.collect(Collectors.toList());
+		
+		for (int i = coeficientes.size() - 1; i < coeficientes.size(); i--) {
+			
+			if(coeficientes.get(i) != 0)
+				return i;
+		}
+		
+		return 0;
 	}
 }
