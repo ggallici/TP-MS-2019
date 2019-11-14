@@ -1,15 +1,19 @@
 package back;
 
-import back.expresiones.Expresion;
-
 public enum EstrategiaNewtonGregory {
 
 	PROGRESIVO {
 		
 		@Override
-		public Expresion calcularPolinomioCon(MatrizNewtonGregory matriz) {
+		public int getFilaCoeficiente(int filas, int columnaActual) {
 			
-			return matriz.calcularPolinomioProgresivo();
+			return 0;
+		}
+		
+		@Override
+		public int getFilaXi(int filas, int filaActual) {
+			
+			return filaActual;
 		}
 	}
 	
@@ -18,13 +22,21 @@ public enum EstrategiaNewtonGregory {
 	REGRESIVO {
 		
 		@Override
-		public Expresion calcularPolinomioCon(MatrizNewtonGregory matriz) {
+		public int getFilaCoeficiente(int filas, int columnaActual) {
 			
-			return matriz.calcularPolinomioRegresivo();
+			return filas - columnaActual;
+		}
+		
+		@Override
+		public int getFilaXi(int filas, int filaActual) {
+			
+			return filas - filaActual - 1;
 		}
 	}
 	
 	;
 	
-	public abstract Expresion calcularPolinomioCon(MatrizNewtonGregory matriz);
+	public abstract int getFilaCoeficiente(int filas, int columnaActual);
+	
+	public abstract int getFilaXi(int filas, int filaActual);
 }

@@ -17,17 +17,11 @@ public class NewtonGregory {
 		
 		MatrizNewtonGregory matriz = calcularMatrizCon(puntos);
 		
-		return estrategia.calcularPolinomioCon(matriz);
+		return matriz.calcularPolinomioCon(estrategia);
 	}
 	
 	public MatrizNewtonGregory calcularMatrizCon(List<Punto> puntos) {
 		
-		MatrizNewtonGregory matriz = new MatrizNewtonGregory(puntos.size() + 1, puntos.size());
-		
-		matriz.inicializarCon(puntos);
-				
-		matriz.calcularCoeficientes();
-		
-		return matriz;
+		return new MatrizNewtonGregory(puntos);
 	}
 }
