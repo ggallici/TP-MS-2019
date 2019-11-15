@@ -50,12 +50,13 @@ public class PrincipalVM {
 		if(puntos.size() > 1)
 			sonEquidistantesLosPuntos = Punto.sonEquiespaciados(puntos);
 		
-		if(hayPolinomioCalculado && (polinomioCalculado.evaluarEn(x) != y))  {
-			
-			setStringComunicacion("El punto ingresado ha modificado el polinomio");
-		} else 
-			setStringComunicacion("El polinomio no ha sufrido cambios");
-		
+		if(hayPolinomioCalculado) {
+			if(polinomioCalculado.evaluarEn(x) != y)  {			
+				setStringComunicacion("El punto ingresado ha modificado el polinomio");
+			} else {
+				setStringComunicacion("El polinomio no ha sufrido cambios");
+			}
+		}
 	}
 	
 	public void editarPunto() {
@@ -99,6 +100,8 @@ public class PrincipalVM {
 	public void finalizar() {
 		
 		//ACA ABRIA QUE RESETEAR LOS PUNTOS Y EL POLINOMIO, POR LO QUE LEI EN LOS MAILS
+		puntos.clear();
+		stringComunicacion = "Calcule su primer polinomio";
 	}
 
 
