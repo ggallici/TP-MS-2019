@@ -77,11 +77,14 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		radioSelector.bindItemsToProperty("estrategiasNewtonGregory");
 		radioSelector.bindValueToProperty("estrategiaNewtonGregorySeleccionada");
 		new Button(panelPolinomio).setCaption("Calcular").onClick(this::calcularPolinomio);
+		new Label(panelPolinomio).bindValueToProperty("stringComunicacion");
 		new Label(panelPolinomio).bindValueToProperty("polinomioCalculado");
 		new Label(panelPolinomio).bindValueToProperty("esIgualAlPolinomioAnterior");
 		new Label(panelPolinomio).setText("\n\n\n\n\n ACA LOS PASOS DEL POLINOMIO \n\n\n\n\n\n\n").setBackground(Color.RED);
-		new Label(panelPolinomio).setText("Grado del polinomio: ");
-		new Label(panelPolinomio).setText("3");
+		Panel panelGrado = new Panel(panelPolinomio);
+		panelGrado.setLayout(new HorizontalLayout());
+		new Label(panelGrado).setText("Grado del polinomio: ");
+		new Label(panelGrado).setText("3");
 		
 		//EVALUACION DEL POLINOMIO
 		GroupPanel panelEvaluacion = new GroupPanel(panelPrincipal);
@@ -92,6 +95,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		new Button(panelEvaluacion).setCaption("Evaluar").onClick(this::evaluarPolinomio);
 		new Label(panelEvaluacion).setText("EL POLINOMIO EVALUADO EN K DA: ");
 		new Label(panelEvaluacion).bindValueToProperty("polinomioEvaluado");
+		new Button(panelEvaluacion).setCaption("Finalizar").onClick(this::finalizar);
 	}
 	
 	@Override
@@ -119,5 +123,10 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 	public void evaluarPolinomio() {
 		
 		getModelObject().evaluarPolinomio();
+	}
+	
+	public void finalizar() {
+		
+		getModelObject().finalizar();
 	}
 }

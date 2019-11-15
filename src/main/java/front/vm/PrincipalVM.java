@@ -21,6 +21,7 @@ public class PrincipalVM {
 	private List<Punto> puntos = new ArrayList<>();
 	private Punto puntoSeleccionado;
 	private boolean sonEquidistantesLosPuntos;
+	private String stringComunicacion = "Calcule su primer polinomio";
 	
 	private List<MetodoInterpolacion> metodosInterpolacion = Arrays.asList(MetodoInterpolacion.values());
 	private MetodoInterpolacion metodoInterpolacionSeleccionado;
@@ -51,8 +52,9 @@ public class PrincipalVM {
 		
 		if(hayPolinomioCalculado && (polinomioCalculado.evaluarEn(x) != y))  {
 			
-			//LABEL CAMBIA A "EL POLINOMIO HA CAMBIADO"
-		}
+			setStringComunicacion("El punto ingresado ha modificado el polinomio");
+		} else 
+			setStringComunicacion("El polinomio no ha sufrido cambios");
 		
 	}
 	
@@ -70,11 +72,11 @@ public class PrincipalVM {
 		
 		if(metodoInterpolacionSeleccionado.equals("LAGRANGE")) {
 			
-			metodoAUsar = new Lagrange();
+			setMetodoAUsar(new Lagrange());
 		}
 		else if(metodoInterpolacionSeleccionado.equals("NEWTON_GREGORY")) {
 			
-			metodoAUsar = new NewtonGregory(estrategiaNewtonGregorySeleccionada);
+			setMetodoAUsar(new NewtonGregory(estrategiaNewtonGregorySeleccionada));
 		}
 	}
 
@@ -92,6 +94,11 @@ public class PrincipalVM {
 	public void evaluarPolinomio() {
 		
 		polinomioEvaluado = polinomioCalculado.evaluarEn(k);
+	}
+	
+	public void finalizar() {
+		
+		//ACA ABRIA QUE RESETEAR LOS PUNTOS Y EL POLINOMIO, POR LO QUE LEI EN LOS MAILS
 	}
 
 
@@ -200,5 +207,37 @@ public class PrincipalVM {
 
 	public void setPuntos(List<Punto> puntos) {
 		this.puntos = puntos;
+	}
+
+	public String getStringComunicacion() {
+		return stringComunicacion;
+	}
+
+	public void setStringComunicacion(String stringComunicacion) {
+		this.stringComunicacion = stringComunicacion;
+	}
+
+	public List<MetodoInterpolacion> getMetodosInterpolacion() {
+		return metodosInterpolacion;
+	}
+
+	public void setMetodosInterpolacion(List<MetodoInterpolacion> metodosInterpolacion) {
+		this.metodosInterpolacion = metodosInterpolacion;
+	}
+
+	public MetodoDeCalculo getMetodoAUsar() {
+		return metodoAUsar;
+	}
+
+	public void setMetodoAUsar(MetodoDeCalculo metodoAUsar) {
+		this.metodoAUsar = metodoAUsar;
+	}
+
+	public int getGradoDelPolinomio() {
+		return gradoDelPolinomio;
+	}
+
+	public void setGradoDelPolinomio(int gradoDelPolinomio) {
+		this.gradoDelPolinomio = gradoDelPolinomio;
 	}
 }
