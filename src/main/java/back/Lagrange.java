@@ -12,7 +12,7 @@ import back.expresiones.operaciones.Multiplicacion;
 import back.expresiones.operaciones.Resta;
 import back.expresiones.operaciones.Suma;
 
-public class Lagrange {
+public class Lagrange implements MetodoDeCalculo{
 
 	public Expresion calcularPolinomioCon(List<Punto> puntos) {
 		

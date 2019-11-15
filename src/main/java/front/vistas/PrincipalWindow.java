@@ -54,9 +54,14 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		Table<Punto> tablaPuntos = new Table<>(panelTablaPuntos, Punto.class);
 		tablaPuntos.setNumberVisibleRows(5);
 		tablaPuntos.bindItemsToProperty("puntos");
+		//tablaPuntos.bindValueToProperty("puntoSeleccionado");
 		new Column<Punto>(tablaPuntos).setTitle("X").setFixedSize(265).bindContentsToProperty("x");
 		new Column<Punto>(tablaPuntos).setTitle("Y").setFixedSize(265).bindContentsToProperty("y");
 		//EDITAR Y BORRAR PUNTOS, SI NO LO PUEDO METER EN UNA COLUMNA, QUE SEAN BOTONES COMUNES
+		Panel panelEdicion = new Panel(panelPuntos);
+		panelEdicion.setLayout(new HorizontalLayout());
+		new Button(panelEdicion).setCaption("Editar punto").onClick(this::editarPunto);
+		new Button(panelEdicion).setCaption("Borrar punto").onClick(this::borrarPunto);
 		//new Column<Punto>(tablaPuntos).setFixedSize(50);
 		//new Column<Punto>(tablaPuntos).setFixedSize(50);
 		Panel panelSonPuntosEquidistantes = new Panel(panelPuntos);
@@ -95,6 +100,15 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 	public void agregarPunto() {
 		
 		getModelObject().agregarPunto();
+	}
+	
+	public void editarPunto() {
+		
+		getModelObject().editarPunto();
+	}
+	public void borrarPunto() {
+	
+		getModelObject().borrarPunto();
 	}
 	
 	public void calcularPolinomio() {

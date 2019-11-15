@@ -4,7 +4,7 @@ import java.util.List;
 
 import back.expresiones.Expresion;
 
-public class NewtonGregory {
+public class NewtonGregory implements MetodoDeCalculo {
 	
 	private EstrategiaNewtonGregory estrategia;
 

@@ -19,6 +19,12 @@ public class Punto {
 		this.y = y;
 	}
 	
+	public void editar(double x, double y) {
+		
+		this.x = x;
+		this.y = y;
+	}
+	
 	public double getX() {
 		
 		return x;

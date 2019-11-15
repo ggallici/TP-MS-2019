@@ -7,6 +7,9 @@ import java.util.List;
 import org.uqbar.commons.utils.Observable;
 
 import back.EstrategiaNewtonGregory;
+import back.Lagrange;
+import back.MetodoDeCalculo;
+import back.NewtonGregory;
 import back.Punto;
 import back.expresiones.Expresion;
 
@@ -16,15 +19,19 @@ public class PrincipalVM {
 	private double x;
 	private double y;
 	private List<Punto> puntos = new ArrayList<>();
+	private Punto puntoSeleccionado;
 	private boolean sonEquidistantesLosPuntos;
 	
-	private List<MetodoInterpolacion> metodosInterpolacion = new ArrayList<>();
+	private List<MetodoInterpolacion> metodosInterpolacion = Arrays.asList(MetodoInterpolacion.values());
 	private MetodoInterpolacion metodoInterpolacionSeleccionado;
 	private List<EstrategiaNewtonGregory> estrategiasNewtonGregory = Arrays.asList(EstrategiaNewtonGregory.values());
 	private EstrategiaNewtonGregory estrategiaNewtonGregorySeleccionada;
+	private MetodoDeCalculo metodoAUsar;
+	
 	private Expresion polinomioCalculado;
 	private String pasoIntermedio; //ESTO PODRIA SER STRING O ALGO POLIMORFICO ENTRE LA LISTA DE EXPRESIONES LI Y LA MATRIZ DE NG
 	private int gradoDelPolinomio;
+	private Boolean hayPolinomioCalculado = false;
 	private Boolean esIgualAlPolinomioAnterior = null; //Null representa que todavia no hubo un primer polinomio calculado
 	
 	
@@ -38,9 +45,37 @@ public class PrincipalVM {
 	public void agregarPunto() {
 		
 		puntos.add(new Punto(x, y));
-
+		
 		if(puntos.size() > 1)
 			sonEquidistantesLosPuntos = Punto.sonEquiespaciados(puntos);
+		
+		if(hayPolinomioCalculado && (polinomioCalculado.evaluarEn(x) != y))  {
+			
+			//LABEL CAMBIA A "EL POLINOMIO HA CAMBIADO"
+		}
+		
+	}
+	
+	public void editarPunto() {
+		
+		puntoSeleccionado.editar(x,y);
+	}
+	
+	public void borrarPunto() {
+		
+		puntos.remove(puntoSeleccionado);
+	}
+	
+	public void definirMetodo() {
+		
+		if(metodoInterpolacionSeleccionado.equals("LAGRANGE")) {
+			
+			metodoAUsar = new Lagrange();
+		}
+		else if(metodoInterpolacionSeleccionado.equals("NEWTON_GREGORY")) {
+			
+			metodoAUsar = new NewtonGregory(estrategiaNewtonGregorySeleccionada);
+		}
 	}
 
 	public void calcularPolinomio() {
@@ -50,6 +85,8 @@ public class PrincipalVM {
 		//pasoIntermedio = metodoInterpolacionSeleccionado.calcularPasoIntermedioCon(puntos);
 		
 		//hacer algo para saber si el polinomio cambio o no cambio con respecto al calculo anterior actualizando la variable "esIgualAlPolinomioAnterior"
+	
+		hayPolinomioCalculado = true;
 	}
 
 	public void evaluarPolinomio() {
