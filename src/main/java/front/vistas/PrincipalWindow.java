@@ -22,6 +22,7 @@ import org.uqbar.arena.windows.WindowOwner;
 import back.EstrategiaNewtonGregory;
 import back.Lagrange;
 import back.Punto;
+import front.vm.MetodoInterpolacion;
 import front.vm.PrincipalVM;
 
 @SuppressWarnings("serial")
@@ -54,13 +55,13 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		Table<Punto> tablaPuntos = new Table<>(panelTablaPuntos, Punto.class);
 		tablaPuntos.setNumberVisibleRows(5);
 		tablaPuntos.bindItemsToProperty("puntos");
-		//tablaPuntos.bindValueToProperty("puntoSeleccionado");
+		tablaPuntos.bindSelectionToProperty("puntoSeleccionado");
 		new Column<Punto>(tablaPuntos).setTitle("X").setFixedSize(265).bindContentsToProperty("x");
 		new Column<Punto>(tablaPuntos).setTitle("Y").setFixedSize(265).bindContentsToProperty("y");
 		//EDITAR Y BORRAR PUNTOS, SI NO LO PUEDO METER EN UNA COLUMNA, QUE SEAN BOTONES COMUNES
 		Panel panelEdicion = new Panel(panelPuntos);
 		panelEdicion.setLayout(new HorizontalLayout());
-		new Button(panelEdicion).setCaption("Editar punto").onClick(this::editarPunto);
+		//new Button(panelEdicion).setCaption("Editar punto").onClick(this::editarPunto);
 		new Button(panelEdicion).setCaption("Borrar punto").onClick(this::borrarPunto);
 		//new Column<Punto>(tablaPuntos).setFixedSize(50);
 		//new Column<Punto>(tablaPuntos).setFixedSize(50);
@@ -72,10 +73,15 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		//CALCULO DEL POLINOMIO
 		GroupPanel panelPolinomio = new GroupPanel(panelPrincipal);
 		panelPolinomio.setTitle("Metodos de calculo ");
-		new Selector<Lagrange>(panelPolinomio);
+		Selector<MetodoInterpolacion> selectorMetodo = new Selector<MetodoInterpolacion>(panelPolinomio);
+		selectorMetodo.bindItemsToProperty("metodosInterpolacion");
+		selectorMetodo.bindValueToProperty("metodoInterpolacionSeleccionado");
+		selectorMetodo.onSelection(this::definirMetodo);
+		selectorMetodo.allowNull(false);
 		Selector<EstrategiaNewtonGregory> radioSelector = new RadioSelector<EstrategiaNewtonGregory>(panelPolinomio);
 		radioSelector.bindItemsToProperty("estrategiasNewtonGregory");
 		radioSelector.bindValueToProperty("estrategiaNewtonGregorySeleccionada");
+		radioSelector.allowNull(false);
 		new Button(panelPolinomio).setCaption("Calcular").onClick(this::calcularPolinomio);
 		new Label(panelPolinomio).bindValueToProperty("stringComunicacion");
 		new Label(panelPolinomio).bindValueToProperty("polinomioCalculado");
@@ -84,7 +90,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		Panel panelGrado = new Panel(panelPolinomio);
 		panelGrado.setLayout(new HorizontalLayout());
 		new Label(panelGrado).setText("Grado del polinomio: ");
-		new Label(panelGrado).setText("3");
+		new Label(panelGrado).bindValueToProperty("gradoDelPolinomio");
 		
 		//EVALUACION DEL POLINOMIO
 		GroupPanel panelEvaluacion = new GroupPanel(panelPrincipal);
@@ -102,7 +108,6 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 	protected void addActions(Panel actionsPanel) { }
 	
 	public void agregarPunto() {
-		
 		getModelObject().agregarPunto();
 	}
 	
@@ -111,7 +116,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		getModelObject().editarPunto();
 	}
 	public void borrarPunto() {
-	
+		
 		getModelObject().borrarPunto();
 	}
 	
@@ -128,5 +133,9 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 	public void finalizar() {
 		
 		getModelObject().finalizar();
+	}
+	
+	public void definirMetodo() {
+		getModelObject().definirMetodo();
 	}
 }

@@ -24,4 +24,8 @@ public class NewtonGregory implements MetodoDeCalculo {
 		
 		return new MatrizNewtonGregory(puntos);
 	}
+	
+	public int calcularGrado(List<Punto> puntos) { 		 		
+		return this.calcularMatrizCon(puntos).getOrdenDelPolinomioSegun(estrategia); 	
+	}
 }

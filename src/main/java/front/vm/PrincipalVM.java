@@ -30,6 +30,7 @@ public class PrincipalVM {
 	private MetodoDeCalculo metodoAUsar;
 	
 	private Expresion polinomioCalculado;
+	private String polinomioCalcuadoString;
 	private String pasoIntermedio; //ESTO PODRIA SER STRING O ALGO POLIMORFICO ENTRE LA LISTA DE EXPRESIONES LI Y LA MATRIZ DE NG
 	private int gradoDelPolinomio;
 	private Boolean hayPolinomioCalculado = false;
@@ -71,11 +72,11 @@ public class PrincipalVM {
 	
 	public void definirMetodo() {
 		
-		if(metodoInterpolacionSeleccionado.equals("LAGRANGE")) {
+		if(metodoInterpolacionSeleccionado == MetodoInterpolacion.LAGRANGE) {
 			
 			setMetodoAUsar(new Lagrange());
 		}
-		else if(metodoInterpolacionSeleccionado.equals("NEWTON_GREGORY")) {
+		else if(metodoInterpolacionSeleccionado == MetodoInterpolacion.NEWTON_GREGORY) {
 			
 			setMetodoAUsar(new NewtonGregory(estrategiaNewtonGregorySeleccionada));
 		}
@@ -83,12 +84,14 @@ public class PrincipalVM {
 
 	public void calcularPolinomio() {
 		
-		//polinomioCalculado = metodoInterpolacionSeleccionado.calcularPolinomioCon(puntos);
+		polinomioCalculado = metodoAUsar.calcularPolinomioCon(puntos);
 		
-		//pasoIntermedio = metodoInterpolacionSeleccionado.calcularPasoIntermedioCon(puntos);
+		//pasoIntermedio = metodoAUsar.calcularPasoIntermedioCon(puntos);
 		
 		//hacer algo para saber si el polinomio cambio o no cambio con respecto al calculo anterior actualizando la variable "esIgualAlPolinomioAnterior"
 	
+		gradoDelPolinomio = new NewtonGregory(EstrategiaNewtonGregory.PROGRESIVO).calcularGrado(puntos);
+		
 		hayPolinomioCalculado = true;
 	}
 
@@ -242,5 +245,21 @@ public class PrincipalVM {
 
 	public void setGradoDelPolinomio(int gradoDelPolinomio) {
 		this.gradoDelPolinomio = gradoDelPolinomio;
+	}
+	
+	public Punto getPuntoSeleccionado() {
+		return puntoSeleccionado;
+	}
+	
+	public void setPuntoSeleccionado(Punto puntoSeleccionado) {
+		this.puntoSeleccionado = puntoSeleccionado;
+	}
+
+	public String getPolinomioCalcuadoString() {
+		return polinomioCalcuadoString;
+	}
+
+	public void setPolinomioCalcuadoString(String polinomioCalcuadoString) {
+		this.polinomioCalcuadoString = polinomioCalcuadoString;
 	}
 }

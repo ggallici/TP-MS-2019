@@ -9,4 +9,5 @@ import back.expresiones.Expresion;
 public interface MetodoDeCalculo {
 	
 	public abstract Expresion calcularPolinomioCon(List<Punto> puntos);
+
 }
