@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import org.uqbar.arena.layout.ColumnLayout;
 import org.uqbar.arena.layout.HorizontalLayout;
+import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.CheckBox;
 import org.uqbar.arena.widgets.GroupPanel;
@@ -67,7 +68,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		//new Column<Punto>(tablaPuntos).setFixedSize(50);
 		Panel panelSonPuntosEquidistantes = new Panel(panelPuntos);
 		panelSonPuntosEquidistantes.setLayout(new HorizontalLayout());
-		new Label(panelSonPuntosEquidistantes).setText("¿Son puntos equiespaciados?: ");
+		new Label(panelSonPuntosEquidistantes).setText("ï¿½Son puntos equiespaciados?: ");
 		new Label(panelSonPuntosEquidistantes).bindValueToProperty("sonEquidistantesLosPuntos");
 		
 		//CALCULO DEL POLINOMIO
@@ -98,12 +99,14 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		//EVALUACION DEL POLINOMIO
 		GroupPanel panelEvaluacion = new GroupPanel(panelPrincipal);
 		panelEvaluacion.setTitle("Evaluacion ");
-		panelEvaluacion.setLayout(new HorizontalLayout());
-		new Label(panelEvaluacion).setText("Evaluar en K = ");
-		new NumericField(panelEvaluacion).bindValueToProperty("k");
-		new Button(panelEvaluacion).setCaption("Evaluar").onClick(this::evaluarPolinomio);
-		new Label(panelEvaluacion).setText("EL POLINOMIO EVALUADO EN K DA: ");
-		new Label(panelEvaluacion).bindValueToProperty("polinomioEvaluado");
+		panelEvaluacion.setLayout(new VerticalLayout());
+		Panel acciones = new Panel(panelEvaluacion);
+		acciones.setLayout(new HorizontalLayout());
+		new Label(acciones).setText("Evaluar en K = ");
+		new NumericField(acciones).bindValueToProperty("k");
+		new Button(acciones).setCaption("Evaluar").onClick(this::evaluarPolinomio);
+		new Label(acciones).setText("EL POLINOMIO EVALUADO EN K DA: ");
+		new Label(acciones).bindValueToProperty("polinomioEvaluado");
 		new Button(panelEvaluacion).setCaption("Limpiar campos").onClick(this::finalizar);
 	}
 	
