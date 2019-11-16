@@ -2,6 +2,8 @@ package front.vistas;
 
 import java.awt.Color;
 
+import org.apache.commons.collections15.Transformer;
+import org.uqbar.arena.bindings.ValueTransformer;
 import org.uqbar.arena.layout.ColumnLayout;
 import org.uqbar.arena.layout.HorizontalLayout;
 import org.uqbar.arena.layout.VerticalLayout;
@@ -59,17 +61,39 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		tablaPuntos.bindSelectionToProperty("puntoSeleccionado");
 		new Column<Punto>(tablaPuntos).setTitle("X").setFixedSize(265).bindContentsToProperty("x");
 		new Column<Punto>(tablaPuntos).setTitle("Y").setFixedSize(265).bindContentsToProperty("y");
-		//EDITAR Y BORRAR PUNTOS, SI NO LO PUEDO METER EN UNA COLUMNA, QUE SEAN BOTONES COMUNES
+		
 		Panel panelEdicion = new Panel(panelPuntos);
 		panelEdicion.setLayout(new HorizontalLayout());
 		//new Button(panelEdicion).setCaption("Editar punto").onClick(this::editarPunto);
 		new Button(panelEdicion).setCaption("Borrar punto").onClick(this::borrarPunto);
-		//new Column<Punto>(tablaPuntos).setFixedSize(50);
-		//new Column<Punto>(tablaPuntos).setFixedSize(50);
 		Panel panelSonPuntosEquidistantes = new Panel(panelPuntos);
 		panelSonPuntosEquidistantes.setLayout(new HorizontalLayout());
-		new Label(panelSonPuntosEquidistantes).setText("�Son puntos equiespaciados?: ");
-		new Label(panelSonPuntosEquidistantes).bindValueToProperty("sonEquidistantesLosPuntos");
+		new Label(panelSonPuntosEquidistantes).setText("Son puntos equiespaciados?: ");
+		new Label(panelSonPuntosEquidistantes).bindValueToProperty("sonEquidistantesLosPuntos").setTransformer(new ValueTransformer<Boolean, String>() {
+
+			@Override
+			public Boolean viewToModel(String valueFromView) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String modelToView(Boolean valueFromModel) {
+				
+				return valueFromModel.booleanValue() ? "Si" : "No";
+			}
+
+			@Override
+			public Class<Boolean> getModelType() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Class<String> getViewType() {
+				// TODO Auto-generated method stub
+				return null;
+			}});;
 		
 		//CALCULO DEL POLINOMIO
 		GroupPanel panelPolinomio = new GroupPanel(panelPrincipal);
@@ -77,16 +101,13 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		Selector<MetodoInterpolacion> selectorMetodo = new Selector<MetodoInterpolacion>(panelPolinomio);
 		selectorMetodo.bindItemsToProperty("metodosInterpolacion");
 		selectorMetodo.bindValueToProperty("metodoInterpolacionSeleccionado");
-		selectorMetodo.onSelection(this::definirMetodo);
 		selectorMetodo.allowNull(false);
 		Selector<EstrategiaNewtonGregory> radioSelector = new RadioSelector<EstrategiaNewtonGregory>(panelPolinomio);
 		radioSelector.bindItemsToProperty("estrategiasNewtonGregory");
 		radioSelector.bindValueToProperty("estrategiaNewtonGregorySeleccionada");
 		radioSelector.allowNull(false);
 		new Button(panelPolinomio).setCaption("Calcular").onClick(this::calcularPolinomio);
-		new Label(panelPolinomio).bindValueToProperty("stringComunicacion");
 		new Label(panelPolinomio).bindValueToProperty("polinomioCalculado");
-		new Label(panelPolinomio).bindValueToProperty("esIgualAlPolinomioAnterior");
 		GroupPanel panelPasos = new GroupPanel(panelPolinomio);
 		panelPasos.setWidth(400);
 		panelPasos.setTitle("Pasos");
@@ -95,6 +116,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		panelGrado.setLayout(new HorizontalLayout());
 		new Label(panelGrado).setText("Grado del polinomio: ");
 		new Label(panelGrado).bindValueToProperty("gradoDelPolinomio");
+		new Label(panelPolinomio).bindValueToProperty("stringComunicacion");
 		
 		//EVALUACION DEL POLINOMIO
 		GroupPanel panelEvaluacion = new GroupPanel(panelPrincipal);
@@ -105,7 +127,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		new Label(acciones).setText("Evaluar en K = ");
 		new NumericField(acciones).bindValueToProperty("k");
 		new Button(acciones).setCaption("Evaluar").onClick(this::evaluarPolinomio);
-		new Label(acciones).setText("EL POLINOMIO EVALUADO EN K DA: ");
+		new Label(acciones).setText("Resultado de evaluar el polinomio: ");
 		new Label(acciones).bindValueToProperty("polinomioEvaluado");
 		new Button(panelEvaluacion).setCaption("Limpiar campos").onClick(this::finalizar);
 	}

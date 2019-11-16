@@ -89,7 +89,16 @@ public class MatrizNewtonGregory {
 	
 	public String toString() {
 		
-		return IntStream
+		String cabecera = "X\tY";
+		
+		for (int i = 2; i < columnas; i++) {
+			
+			cabecera = cabecera + "\tO" + (i - 1);
+		}
+		
+		cabecera = cabecera + "\n\n";
+		
+		return cabecera + IntStream
 				.range(0, filas)
 				.mapToObj(fila -> {
 					

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.uqbar.commons.model.UserException;
 import org.uqbar.commons.utils.Observable;
 
 import back.EstrategiaNewtonGregory;
@@ -20,21 +21,19 @@ public class PrincipalVM {
 	private double y;
 	private List<Punto> puntos = new ArrayList<>();
 	private Punto puntoSeleccionado;
-	private boolean sonEquidistantesLosPuntos;
-	private String stringComunicacion = "Calcule su primer polinomio";
+	private Boolean sonEquidistantesLosPuntos;
 	
 	private List<MetodoInterpolacion> metodosInterpolacion = Arrays.asList(MetodoInterpolacion.values());
-	private MetodoInterpolacion metodoInterpolacionSeleccionado;
+	private MetodoInterpolacion metodoInterpolacionSeleccionado = MetodoInterpolacion.LAGRANGE;
 	private List<EstrategiaNewtonGregory> estrategiasNewtonGregory = Arrays.asList(EstrategiaNewtonGregory.values());
-	private EstrategiaNewtonGregory estrategiaNewtonGregorySeleccionada;
-	private MetodoDeCalculo metodoAUsar;
+	private EstrategiaNewtonGregory estrategiaNewtonGregorySeleccionada = EstrategiaNewtonGregory.PROGRESIVO;
+	private MetodoDeCalculo metodoAUsar = new Lagrange();
 	
+	private String stringComunicacion = "Calcule su primer polinomio";
 	private Expresion polinomioCalculado;
-	private String pasoIntermedio; //ESTO PODRIA SER STRING O ALGO POLIMORFICO ENTRE LA LISTA DE EXPRESIONES LI Y LA MATRIZ DE NG
+	private String pasoIntermedio;
 	private int gradoDelPolinomio;
-	private Boolean hayPolinomioCalculado = false;
-	private Boolean esIgualAlPolinomioAnterior = null; //Null representa que todavia no hubo un primer polinomio calculado
-	
+	private boolean hayPolinomioCalculado;
 	
 	private double k;
 	private double polinomioEvaluado;
@@ -49,14 +48,6 @@ public class PrincipalVM {
 		
 		if(puntos.size() > 1)
 			sonEquidistantesLosPuntos = Punto.sonEquiespaciados(puntos);
-		
-		if(hayPolinomioCalculado) {
-			if(polinomioCalculado.evaluarEn(x) != y)  {			
-				setStringComunicacion("El punto ingresado ha modificado el polinomio");
-			} else {
-				setStringComunicacion("El polinomio no ha sufrido cambios");
-			}
-		}
 	}
 	
 	public void editarPunto() {
@@ -67,6 +58,9 @@ public class PrincipalVM {
 	public void borrarPunto() {
 		
 		puntos.remove(puntoSeleccionado);
+	
+		if(puntos.size() > 1)
+			sonEquidistantesLosPuntos = Punto.sonEquiespaciados(puntos);
 	}
 	
 	public void definirMetodo() {
@@ -83,11 +77,25 @@ public class PrincipalVM {
 
 	public void calcularPolinomio() {
 		
+		definirMetodo();
+		
+		if(puntos.size() < 2)
+			throw new UserException("Para calcular necesita al menos 2 puntos");
+		
+		if(hayPolinomioCalculado) {
+			if(polinomioCalculado.evaluarEn(x) != y)  {			
+				setStringComunicacion("El punto ingresado ha modificado el polinomio");
+			} else {
+				setStringComunicacion("El polinomio no ha sufrido cambios");
+			}
+		}
+		else {
+			setStringComunicacion("Ahora, pruebe ingresando nuevos puntos y recalculando para ver si el polinomio se modifica");
+		}
+		
 		polinomioCalculado = metodoAUsar.calcularPolinomioCon(puntos);
 		
 		pasoIntermedio = metodoAUsar.calcularPasoIntermedioCon(puntos);
-		
-		//hacer algo para saber si el polinomio cambio o no cambio con respecto al calculo anterior actualizando la variable "esIgualAlPolinomioAnterior"
 	
 		gradoDelPolinomio = new NewtonGregory(EstrategiaNewtonGregory.PROGRESIVO).calcularGrado(puntos);
 		
@@ -111,6 +119,7 @@ public class PrincipalVM {
 		k = 0;
 		polinomioEvaluado = 0;
 		pasoIntermedio = "";
+		hayPolinomioCalculado = false;
 	}
 
 
@@ -164,18 +173,6 @@ public class PrincipalVM {
 
 	public void setPolinomioCalculado(Expresion polinomioCalculado) {
 		this.polinomioCalculado = polinomioCalculado;
-	}
-
-
-
-	public Boolean getEsIgualAlPolinomioAnterior() {
-		return esIgualAlPolinomioAnterior;
-	}
-
-
-
-	public void setEsIgualAlPolinomioAnterior(Boolean esIgualAlPolinomioAnterior) {
-		this.esIgualAlPolinomioAnterior = esIgualAlPolinomioAnterior;
 	}
 	
 	public double getK() {
