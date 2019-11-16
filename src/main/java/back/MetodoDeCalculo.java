@@ -10,4 +10,6 @@ public interface MetodoDeCalculo {
 	
 	public abstract Expresion calcularPolinomioCon(List<Punto> puntos);
 
+	public abstract String calcularPasoIntermedioCon(List<Punto> puntos);
+
 }

@@ -30,7 +30,6 @@ public class PrincipalVM {
 	private MetodoDeCalculo metodoAUsar;
 	
 	private Expresion polinomioCalculado;
-	private String polinomioCalcuadoString;
 	private String pasoIntermedio; //ESTO PODRIA SER STRING O ALGO POLIMORFICO ENTRE LA LISTA DE EXPRESIONES LI Y LA MATRIZ DE NG
 	private int gradoDelPolinomio;
 	private Boolean hayPolinomioCalculado = false;
@@ -86,7 +85,7 @@ public class PrincipalVM {
 		
 		polinomioCalculado = metodoAUsar.calcularPolinomioCon(puntos);
 		
-		//pasoIntermedio = metodoAUsar.calcularPasoIntermedioCon(puntos);
+		pasoIntermedio = metodoAUsar.calcularPasoIntermedioCon(puntos);
 		
 		//hacer algo para saber si el polinomio cambio o no cambio con respecto al calculo anterior actualizando la variable "esIgualAlPolinomioAnterior"
 	
@@ -105,6 +104,13 @@ public class PrincipalVM {
 		//ACA ABRIA QUE RESETEAR LOS PUNTOS Y EL POLINOMIO, POR LO QUE LEI EN LOS MAILS
 		puntos.clear();
 		stringComunicacion = "Calcule su primer polinomio";
+		polinomioCalculado = null;
+		gradoDelPolinomio = 0;
+		x = 0;
+		y = 0;
+		k = 0;
+		polinomioEvaluado = 0;
+		pasoIntermedio = "";
 	}
 
 
@@ -174,6 +180,10 @@ public class PrincipalVM {
 	
 	public double getK() {
 		return k;
+	}
+	
+	public void setK(double k) {
+		this.k = k;
 	}
 
 	
@@ -255,11 +265,12 @@ public class PrincipalVM {
 		this.puntoSeleccionado = puntoSeleccionado;
 	}
 
-	public String getPolinomioCalcuadoString() {
-		return polinomioCalcuadoString;
+	public String getPasoIntermedio() {
+		return pasoIntermedio;
 	}
 
-	public void setPolinomioCalcuadoString(String polinomioCalcuadoString) {
-		this.polinomioCalcuadoString = polinomioCalcuadoString;
+	public void setPasoIntermedio(String pasoIntermedio) {
+		this.pasoIntermedio = pasoIntermedio;
 	}
+
 }

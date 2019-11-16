@@ -28,4 +28,10 @@ public class NewtonGregory implements MetodoDeCalculo {
 	public int calcularGrado(List<Punto> puntos) { 		 		
 		return this.calcularMatrizCon(puntos).getOrdenDelPolinomioSegun(estrategia); 	
 	}
+
+	@Override
+	public String calcularPasoIntermedioCon(List<Punto> puntos) {
+		
+		return this.calcularMatrizCon(puntos).toString();
+	}
 }

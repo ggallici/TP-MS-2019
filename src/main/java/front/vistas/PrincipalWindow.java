@@ -67,7 +67,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		//new Column<Punto>(tablaPuntos).setFixedSize(50);
 		Panel panelSonPuntosEquidistantes = new Panel(panelPuntos);
 		panelSonPuntosEquidistantes.setLayout(new HorizontalLayout());
-		new Label(panelSonPuntosEquidistantes).setText("Son puntos equidistantes?: ");
+		new Label(panelSonPuntosEquidistantes).setText("¿Son puntos equiespaciados?: ");
 		new Label(panelSonPuntosEquidistantes).bindValueToProperty("sonEquidistantesLosPuntos");
 		
 		//CALCULO DEL POLINOMIO
@@ -86,7 +86,10 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		new Label(panelPolinomio).bindValueToProperty("stringComunicacion");
 		new Label(panelPolinomio).bindValueToProperty("polinomioCalculado");
 		new Label(panelPolinomio).bindValueToProperty("esIgualAlPolinomioAnterior");
-		new Label(panelPolinomio).setText("\n\n\n\n\n ACA LOS PASOS DEL POLINOMIO \n\n\n\n\n\n\n").setBackground(Color.RED);
+		GroupPanel panelPasos = new GroupPanel(panelPolinomio);
+		panelPasos.setWidth(400);
+		panelPasos.setTitle("Pasos");
+		new Label(panelPasos).setWidth(380).bindValueToProperty("pasoIntermedio");
 		Panel panelGrado = new Panel(panelPolinomio);
 		panelGrado.setLayout(new HorizontalLayout());
 		new Label(panelGrado).setText("Grado del polinomio: ");
@@ -101,7 +104,7 @@ public class PrincipalWindow extends SimpleWindow<PrincipalVM>{
 		new Button(panelEvaluacion).setCaption("Evaluar").onClick(this::evaluarPolinomio);
 		new Label(panelEvaluacion).setText("EL POLINOMIO EVALUADO EN K DA: ");
 		new Label(panelEvaluacion).bindValueToProperty("polinomioEvaluado");
-		new Button(panelEvaluacion).setCaption("Finalizar").onClick(this::finalizar);
+		new Button(panelEvaluacion).setCaption("Limpiar campos").onClick(this::finalizar);
 	}
 	
 	@Override

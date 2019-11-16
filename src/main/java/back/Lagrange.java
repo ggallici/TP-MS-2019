@@ -60,4 +60,15 @@ public class Lagrange implements MetodoDeCalculo{
 				})
 				.orElseThrow(() -> new RuntimeException("No se puede calcular Lagrange sin puntos"));
 	}
+
+	@Override
+	public String calcularPasoIntermedioCon(List<Punto> puntos) {
+		List<Expresion> lis = this.calcularLisCon(puntos);
+		
+		String pasos = "";
+		for(int i = 0; i < lis.size(); i++ ) {
+			pasos += "L"+ i + ": " +lis.get(i).toString() + "\n";
+		}
+		return pasos;
+	}
 }
